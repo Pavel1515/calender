@@ -1,50 +1,37 @@
 import { useState } from "react";
 import moment from "moment/moment";
 import icon from "../../assets/image/icon.png";
-import { useDispatch, useSelector } from "react-redux";
-import { setDate } from "../../redux/Slices/addPostSlices";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { setChangeKey } from "../../redux/Slices/changeSlices";
+
 const Calendar = () => {
-  // Проект сырой но я уверен етого должно хватить для того чтобы понять что я могу
-
   const { listMouth, listDay } = useSelector((state) => state.lists);
-  const dispatch = useDispatch();
   const keyLocal = Object.keys(localStorage);
-  const plusState = keyLocal.includes("plus")
-    ? Number(localStorage.getItem("plus"))
-    : 0;
-  const minusState = keyLocal.includes("minus")
-    ? Number(localStorage.getItem("minus"))
-    : 0;
-
-  const monthMState = keyLocal.includes("monthM")
-    ? Number(localStorage.getItem("minus"))
-    : moment().format("M") - 1;
-  const yearState = keyLocal.includes("year")
-    ? Number(localStorage.getItem("year"))
-    : moment().format("y");
-
-  const [plus, setPlus] = useState(plusState);
-  const [minus, setMinus] = useState(minusState);
-  const [monthM, setMothM] = useState(monthMState);
-  const [year, setYear] = useState(yearState);
+  const [plus, setPlus] = useState(0);
+  const [minus, setMinus] = useState(0);
+  const [monthM, setMothM] = useState(moment().format("M") - 1);
+  const [year, setYear] = useState(moment().format("y"));
   const [isVisibal, setIsVisibal] = useState(false);
   const dayts = moment([`${year}`, `${monthM}`])
     .startOf("month")
     .startOf("week");
   const day = dayts.clone().add(plus, "month").subtract(minus, "month");
   const calendarList = [...Array(42)].map(() => day.add(1, "day").clone());
-  dispatch(setDate(day.format("DD/MM/YYYY")));
+  const dayAdd = day.clone().subtract(1, "month");
+  localStorage.setItem("addDay", dayAdd.format("DD/MM/YYYY"));
   return (
     <>
-      <div className="conatainer-header">
-        <Link className="add-post" to="add">
+      <div className="flex items-center  justify-around mb-10 mt-10">
+        <Link
+          className="cursor-pointer border border-black w-10 h-10 flex justify-center items-center bg-indigo-800 text-white rounded"
+          to="add"
+        >
           <span>+</span>
         </Link>
 
-        <div>
+        <div className="flex">
           <button
+            className="h-10 w-10 border border-black rounded mr-1"
             onClick={() => {
               setMinus(minus + 1);
               localStorage.setItem("minus", minus + 1);
@@ -52,8 +39,11 @@ const Calendar = () => {
           >
             {" <"}
           </button>
-          <span>{calendarList[15].format("MMMM yyyy")}</span>
+          <div className="w-32 pt-2 text-center">
+            {calendarList[15].format("MMMM yyyy")}
+          </div>
           <button
+            className="h-10 w-10 border border-black rounded ml-1"
             onClick={() => {
               setPlus(plus + 1);
               localStorage.setItem("plus", plus + 1);
@@ -62,7 +52,7 @@ const Calendar = () => {
             {">"}
           </button>
         </div>
-        <div>
+        <div className="relative">
           <img
             src={icon}
             alt=""
@@ -71,69 +61,78 @@ const Calendar = () => {
             }}
           />
           {isVisibal && (
-            <div>
-              <div>
+            <div className="data_piker">
+              <div className="flex justify-center items-center ">
                 <button
+                  className="mr-2 border border-black h-5 rounded flex justify-center items-center"
                   onClick={() => {
                     setYear(Number(year) - 1);
                     localStorage.setItem("year", Number(year) - 1);
                   }}
                 >
-                  {"<"}
+                  <span>{"<"}</span>
                 </button>
                 <span>{year}</span>
                 <button
+                  className="ml-2 border border-black h-5 rounded flex justify-center items-center"
                   onClick={() => {
                     setYear(Number(year) + 1);
                     localStorage.setItem("year", year + 1);
                   }}
                 >
-                  {">"}
+                  <span>{">"}</span>
                 </button>
               </div>
-              <div className="data-picer">
+              <div className="piker">
                 {listMouth.map((el, index) => (
-                  <p
-                    className="data-picer-item"
+                  <div
+                    className="piker-item"
                     key={el}
                     onClick={() => {
                       setMothM(index);
-
                       localStorage.setItem("monthM", index);
                     }}
                   >
                     {el}
-                  </p>
+                  </div>
                 ))}
               </div>
             </div>
           )}
         </div>
       </div>
-      <div className="grid-wraper">
+      <div className="flex items-center justify-center">
         {listDay.map((el) => (
-          <div key={el} className="grid-item">
+          <div
+            key={el}
+            className="border border-black w-24 bg-white h-8 text-center"
+          >
             {el}
           </div>
         ))}
-
+      </div>
+      <div className="container-flex">
         {calendarList.map((obj) => (
-          <div key={obj} className="grid-item">
+          <div
+            key={obj}
+            className="border border-black w-24 bg-white h-12 text-center"
+          >
             <span>{obj.format("D")}</span>
             {keyLocal.map((dats, index) =>
               dats === obj.format("DD/MM/YYYY") ? (
                 <Link
                   onClick={() => {
-                    dispatch(
-                      setChangeKey(
-                        obj.subtract(0, "month").format("DD/MM/YYYY")
-                      )
+                    localStorage.setItem(
+                      "changeKey",
+                      obj.subtract(0, "month").format("DD/MM/YYYY")
                     );
                   }}
                   to={"change"}
                   key={dats}
                 >
-                  {JSON.parse(localStorage.getItem(dats)).title}
+                  <span className="text-blue-800">
+                    {JSON.parse(localStorage.getItem(dats)).title}
+                  </span>
                 </Link>
               ) : (
                 <p key={index}></p>

@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.container-flex {
+  display: flex;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  width: 673px;
+}
+.data_piker {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border: 1px solid black;
+  right: 0;
+  z-index: 2;
+  background-color: white;
+}
+.piker{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.piker-item{
+    cursor: pointer;
+    width: 90px;
+    border: 1px solid black;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    
+}

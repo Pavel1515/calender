@@ -1,13 +1,10 @@
-import React, { useEffect } from "react";
 import moment from "moment/moment";
-import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 const FormChange = () => {
   let navigate = useNavigate();
-  const { changeKey } = useSelector((state) => state.changeKey);
+  const changeKey = localStorage.getItem("changeKey");
   const items = JSON.parse(localStorage.getItem(changeKey));
-  console.log(items);
   const {
     register,
     handleSubmit,
@@ -30,21 +27,39 @@ const FormChange = () => {
   };
 
   return (
-    <>
+    <div className="w-screen h-screen bg-blue-500 flex justify-center items-center flex-col">
       <p>Edit</p>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form className="flex flex-col  " onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex items-start justify-between">
+          <span>Title:</span>
+          <input
+            className="mb-2 w-52"
+            defaultValue={items.title}
+            {...register("title", { required: true })}
+          />
+        </div>
+
+        <div className="flex items-start justify-between">
+          <span>Text:
+          </span>
+          <textarea
+            className="mb-2 w-52 "
+            defaultValue={items.description}
+            {...register("description")}
+          />
+        </div>
+
         <input
-          defaultValue={items.title}
-          {...register("title", { required: true })}
+          className="mb-2 "
+          defaultValue={changeKey}
+          {...register("dayts")}
         />
-        <input defaultValue={items.description} {...register("description")} />
-        <input defaultValue={changeKey} {...register("dayts")} />
         <p>Changed: {items.creation}</p>
         {errors.exampleRequired && <span>This field is required</span>}
-        <input value="save" type="submit" />
+        <input className="mb-2 cursor-pointer border border-sky-900 rounded " value="Save" type="submit" />
       </form>
-      <button onClick={deletePost}>Delete</button>
-    </>
+      <button  className="w-60 bg-red-600 cursor-pointer border border-sky-900 rounded" onClick={deletePost}>Delete</button>
+    </div>
   );
 };
 
