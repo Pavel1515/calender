@@ -19,7 +19,7 @@ const Calendar = () => {
   const calendarList = [...Array(42)].map(() => day.add(1, "day").clone());
   localStorage.setItem("addDay", moment().format("DD/MM/YYYY"));
   return (
-    <>
+    <div className="w-screen h-screen bg-blue-500 ">
       <div className="flex items-center  justify-around mb-10 mt-10">
         <Link
           className="cursor-pointer border border-black w-10 h-10 flex justify-center items-center bg-indigo-800 text-white rounded"
@@ -95,7 +95,7 @@ const Calendar = () => {
           )}
         </div>
       </div>
-      <div className="flex items-center justify-center">
+      <div className=" inline-flex justify-center sm:w-full   ">
         {listDay.map((el) => (
           <div
             key={el}
@@ -135,7 +135,7 @@ const Calendar = () => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
