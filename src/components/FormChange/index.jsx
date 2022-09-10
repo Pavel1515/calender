@@ -22,8 +22,9 @@ const FormChange = () => {
     navigate("/");
   };
   const deletePost = () => {
-    localStorage.removeItem(changeKey);
     navigate("/");
+    localStorage.removeItem(changeKey);
+    localStorage.removeItem("changeKey");
   };
 
   return (
@@ -40,8 +41,7 @@ const FormChange = () => {
         </div>
 
         <div className="flex items-start justify-between">
-          <span>Text:
-          </span>
+          <span>Text:</span>
           <textarea
             className="mb-2 w-52 "
             defaultValue={items.description}
@@ -56,9 +56,18 @@ const FormChange = () => {
         />
         <p>Changed: {items.creation}</p>
         {errors.exampleRequired && <span>This field is required</span>}
-        <input className="mb-2 cursor-pointer border border-sky-900 rounded " value="Save" type="submit" />
+        <input
+          className="mb-2 cursor-pointer border border-sky-900 rounded "
+          value="Save"
+          type="submit"
+        />
       </form>
-      <button  className="w-60 bg-red-600 cursor-pointer border border-sky-900 rounded" onClick={deletePost}>Delete</button>
+      <button
+        className="w-60 bg-red-600 cursor-pointer border border-sky-900 rounded"
+        onClick={deletePost}
+      >
+        Delete
+      </button>
     </div>
   );
 };

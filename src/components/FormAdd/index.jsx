@@ -46,7 +46,10 @@ const FormAdd = () => {
         />
 
         {errors.exampleRequired && <span>This field is required</span>}
-        <input className="cursor-pointer border border-sky-900 rounded" type="submit" />
+        <input
+          className="cursor-pointer border border-sky-900 rounded"
+          type="submit"
+        />
       </form>
     </div>
   );

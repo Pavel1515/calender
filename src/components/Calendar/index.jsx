@@ -17,8 +17,7 @@ const Calendar = () => {
     .startOf("week");
   const day = dayts.clone().add(plus, "month").subtract(minus, "month");
   const calendarList = [...Array(42)].map(() => day.add(1, "day").clone());
-  const dayAdd = day.clone().subtract(1, "month");
-  localStorage.setItem("addDay", dayAdd.format("DD/MM/YYYY"));
+  localStorage.setItem("addDay", moment().format("DD/MM/YYYY"));
   return (
     <>
       <div className="flex items-center  justify-around mb-10 mt-10">
@@ -34,7 +33,6 @@ const Calendar = () => {
             className="h-10 w-10 border border-black rounded mr-1"
             onClick={() => {
               setMinus(minus + 1);
-              localStorage.setItem("minus", minus + 1);
             }}
           >
             {" <"}
@@ -46,7 +44,6 @@ const Calendar = () => {
             className="h-10 w-10 border border-black rounded ml-1"
             onClick={() => {
               setPlus(plus + 1);
-              localStorage.setItem("plus", plus + 1);
             }}
           >
             {">"}
@@ -67,7 +64,6 @@ const Calendar = () => {
                   className="mr-2 border border-black h-5 rounded flex justify-center items-center"
                   onClick={() => {
                     setYear(Number(year) - 1);
-                    localStorage.setItem("year", Number(year) - 1);
                   }}
                 >
                   <span>{"<"}</span>
@@ -77,7 +73,6 @@ const Calendar = () => {
                   className="ml-2 border border-black h-5 rounded flex justify-center items-center"
                   onClick={() => {
                     setYear(Number(year) + 1);
-                    localStorage.setItem("year", year + 1);
                   }}
                 >
                   <span>{">"}</span>
@@ -90,7 +85,6 @@ const Calendar = () => {
                     key={el}
                     onClick={() => {
                       setMothM(index);
-                      localStorage.setItem("monthM", index);
                     }}
                   >
                     {el}
